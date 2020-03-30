@@ -25,8 +25,10 @@ public class TileGenerator : MonoBehaviour
 
 
     public Tilemap topMap;
+    public Tilemap topMapWater;
     public Tilemap botMap;
     public Tile topTile;
+    public Tile topTileWater;
     public Tile botTile;
 
     int width;
@@ -55,7 +57,15 @@ public class TileGenerator : MonoBehaviour
             {
                 if (terrainMap[x, y] == 1)
                     topMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), topTile);
+                //botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+                if (Random.Range(0, 1001) < 998)
+                {
                     botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+                }
+                else
+                {
+                    topMapWater.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), topTileWater);
+                }
             }
         }
     }
@@ -135,6 +145,7 @@ public class TileGenerator : MonoBehaviour
     public void clearMap(bool complete)
     {
         topMap.ClearAllTiles();
+        topMapWater.ClearAllTiles();
         botMap.ClearAllTiles();
 
         if (complete)
