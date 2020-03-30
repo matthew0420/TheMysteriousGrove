@@ -1,0 +1,6 @@
+1. implement movement
+2. Add basic environment
+2. use raycasting to prevent collisions with environment objects (tagged environment)
+
+NO harvestable resources, resources can only be obtained by killing creatures in the 
+forest (wood comes from Ents, stone comes from Rock Golems etc.)
