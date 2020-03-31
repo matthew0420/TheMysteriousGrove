@@ -139,12 +139,40 @@ public class TileGenerator : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            //generates landscape
             doSim(numR);
         }
 
         if (Input.GetMouseButtonDown(1))
         {
+            //clears current landscape
             clearMap(true);
+        }
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            //clears current landscape
+            SaveAssetMap();
+            count++;
+        }
+    }
+
+    public void SaveAssetMap()
+    {
+        string saveName = "tmapXY_" + count;
+        var mf = GameObject.Find("Grid");
+
+        if (mf)
+        {
+            var savePath = "Assets/" + saveName + ".prefab";
+            if(PrefabUtility.CreatePrefab(savePath,mf))
+            {
+                EditorUtility.DisplayDialog("Tilemap saved", "Your Tilemap was saved under" + savePath, "Continue");
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Tilemap NOT saved", "An Error occured while trying to save Your Tilemap under" + savePath, "Continue");
+            }
         }
     }
 
