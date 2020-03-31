@@ -13,4 +13,10 @@ https://www.youtube.com/watch?time_continue=441&v=qAf9axsyijY&feature=emb_logo
 
 https://docs.unity3d.com/Manual/class-TilemapCollider2D.html
 
+https://www.youtube.com/watch?v=6U1WAHwmlc0
+
 https://www.google.com/search?q=adding+scripts+to+tiles+unity&rlz=1C1CHBF_enUS854US854&oq=adding+scripts+to+tiles+unity&aqs=chrome..69i57.4553j0j7&sourceid=chrome&ie=UTF-8
+
+http://gas13.ru/v3/tutorials/sywtbapa_making_sprite.php
+
+https://www.youtube.com/watch?v=navKV6ZietM

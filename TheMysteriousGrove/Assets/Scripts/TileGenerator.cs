@@ -34,6 +34,12 @@ public class TileGenerator : MonoBehaviour
     int width;
     int height;
 
+    private void Start()
+    {
+        doSim(numR);
+        doSim(numR);
+        doSim(numR);
+    }
     public void doSim(int numR)
     {
         clearMap(false);
