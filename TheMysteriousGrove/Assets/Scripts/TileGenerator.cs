@@ -27,8 +27,8 @@ public class TileGenerator : MonoBehaviour
     public Tilemap topMap;
     public Tilemap topMapWater;
     public Tilemap botMap;
-    public Tile topTile;
-    public Tile topTileWater;
+    public RuleTile topTile;
+    public RuleTile topTileWater;
     public Tile botTile;
 
     int width;
