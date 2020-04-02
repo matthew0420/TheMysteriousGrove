@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
-
+//Ideally, this script is going to only be called when the game initially starts for the
+//first time, with no previous save data available. terrain and player pos will be 
+//spawned in from then on with a yet to be established save system
 public class TileGenerator : MonoBehaviour
 {
+    //Stuff for spawning terrain
+    //-------------------------------------------
     [Range(0, 100)]
     public int iniChance;
 
@@ -23,7 +27,6 @@ public class TileGenerator : MonoBehaviour
     private int[,] terrainMap;
     public Vector3Int tmapSize;
 
-
     public Tilemap topMap;
     public Tilemap topMapWater;
     public Tilemap botMap;
@@ -33,14 +36,59 @@ public class TileGenerator : MonoBehaviour
 
     int width;
     int height;
+    //-------------------------------------------
+
+    //Stuff for spawning player
+    //-------------------------------------------
+    public GameObject playerObject;
+    public GameObject newPlayer;
+    public Collider2D[] colliders;
+    public float spawnRadius;
+    public bool canSpawnHere = false;
+    public Vector3 spawnPos;
+
+    //-------------------------------------------
+
 
     private void Start()
     {
-        doSim(numR);
-        doSim(numR);
-        doSim(numR);
+        DoSim(numR);
+        DoSim(numR);
+        DoSim(numR);
+        Invoke("SpawnPlayer", 0.1f);
     }
-    public void doSim(int numR)
+
+    public void SpawnPlayer()
+    {
+        float spawnPosX = Random.Range(-15.0f, 15.0f);
+        float spawnPosY = Random.Range(-15.0f, 15.0f);
+        spawnPos = new Vector3(spawnPosX, spawnPosY, 0);
+        canSpawnHere = PreventSpawnOverlap(spawnPos);
+
+        if (canSpawnHere == true)
+        {
+            newPlayer = Instantiate(playerObject, spawnPos, Quaternion.identity) as GameObject;
+        }
+        else
+        {
+            SpawnPlayer();
+        }
+    }
+
+    public bool PreventSpawnOverlap(Vector3 spawnPos)
+    {
+        colliders = Physics2D.OverlapCircleAll(spawnPos, spawnRadius);
+
+        if (colliders.Length < 1)
+        {
+            Debug.Log("Spawn here!");
+            return true;
+        }
+
+        return false;
+    }
+
+    public void DoSim(int numR)
     {
         clearMap(false);
         width = tmapSize.x;
@@ -140,13 +188,13 @@ public class TileGenerator : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //generates landscape
-            doSim(numR);
+            //DoSim(numR);
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             //clears current landscape
-            clearMap(true);
+            //clearMap(true);
         }
 
         if (Input.GetMouseButtonDown(2))
@@ -155,6 +203,8 @@ public class TileGenerator : MonoBehaviour
             SaveAssetMap();
             count++;
         }
+
+       // colliders = Physics2D.OverlapCircleAll(spawnPos, spawnRadius);
     }
 
     public void SaveAssetMap()
