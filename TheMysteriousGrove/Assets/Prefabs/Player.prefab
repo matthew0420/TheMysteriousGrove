@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1226416143247521872}
   - component: {fileID: 1226416143247521886}
   - component: {fileID: 9137328650001994986}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -120,9 +120,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   playerHorizontal: 0
+  reach: 1
   playerObject: {fileID: 1226416143247521877}
   rb: {fileID: 1226416143247521873}
   animator: {fileID: 1226416143247521886}
+  movement: {x: 0, y: 0}
+  currentTileMap: {fileID: 0}
+  tile: {fileID: 0}
+  botTile: {fileID: 0}
+  canHarvest: 0
+  harvestUp: 0
 --- !u!95 &1226416143247521886
 Animator:
   serializedVersion: 3

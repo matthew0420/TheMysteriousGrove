@@ -218,7 +218,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3725057548a3e2f4796d7a60752574fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -368,7 +368,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3725057548a3e2f4796d7a60752574fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -570,9 +570,9 @@ MonoBehaviour:
   topMap: {fileID: 285721265}
   topMapWater: {fileID: 302957778}
   botMap: {fileID: 1544704640}
-  topTile: {fileID: 11400000, guid: ad8d08acfeb079f4bb0d77d73e4b7485, type: 2}
+  topTile: {fileID: 11400000, guid: 0c8acb4a381521f4abe405435e7fbd93, type: 2}
   topTileWater: {fileID: 11400000, guid: d2e785f609d8a0d4f9a7b88cc15d8875, type: 2}
-  botTile: {fileID: 11400000, guid: f16e4ac24708b4c41808393a851095e3, type: 2}
+  botTile: {fileID: 11400000, guid: 415146f363d590e4a98c910d770de45d, type: 2}
   playerObject: {fileID: 1226416143247521877, guid: 2df86af4898e88644b46c96b8cffde41,
     type: 3}
   newPlayer: {fileID: 0}
@@ -692,9 +692,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   playerHorizontal: 0
+  reach: 0
   playerObject: {fileID: 1054226707}
   rb: {fileID: 1054226711}
   animator: {fileID: 1054226712}
+  movement: {x: 0, y: 0}
+  currentTileMap: {fileID: 1544704640}
+  tile: {fileID: 0}
+  botTile: {fileID: 0}
+  canHarvest: 0
+  harvestUp: 0
+  harvestDown: 0
 --- !u!50 &1054226711
 Rigidbody2D:
   serializedVersion: 4
@@ -746,7 +754,7 @@ GameObject:
   - component: {fileID: 1544704638}
   - component: {fileID: 1544704640}
   - component: {fileID: 1544704639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +793,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3725057548a3e2f4796d7a60752574fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -32,7 +32,7 @@ public class TileGenerator : MonoBehaviour
     public Tilemap botMap;
     public RuleTile topTile;
     public RuleTile topTileWater;
-    public Tile botTile;
+    public RuleTile botTile;
 
     int width;
     int height;
