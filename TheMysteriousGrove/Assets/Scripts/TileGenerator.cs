@@ -215,14 +215,14 @@ public class TileGenerator : MonoBehaviour
         if (mf)
         {
             var savePath = "Assets/" + saveName + ".prefab";
-            if(PrefabUtility.CreatePrefab(savePath,mf))
-            {
-                EditorUtility.DisplayDialog("Tilemap saved", "Your Tilemap was saved under" + savePath, "Continue");
-            }
-            else
-            {
-                EditorUtility.DisplayDialog("Tilemap NOT saved", "An Error occured while trying to save Your Tilemap under" + savePath, "Continue");
-            }
+           // if(PrefabUtility.CreatePrefab(savePath,mf))
+          //  {
+                //EditorUtility.DisplayDialog("Tilemap saved", "Your Tilemap was saved under" + savePath, "Continue");
+           // }
+          //  else
+           // {
+               // EditorUtility.DisplayDialog("Tilemap NOT saved", "An Error occured while trying to save Your Tilemap under" + savePath, "Continue");
+          //  }
         }
     }
 
