@@ -22,6 +22,41 @@ public class PlayerMovement : MonoBehaviour
     public bool harvestUp = false;
     public bool harvestDown = false;
 
+    public bool inventoryOpen = false;
+    public GameObject InventoryObject;
+
+    [SerializeField] private UI_Inventory uiInventory;
+    private Inventory inventory;
+
+    public void Start()
+    {
+        InventoryObject = GameObject.FindGameObjectWithTag("UI_Inventory");
+        InventoryObject.SetActive(false);
+       // uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
+    }
+
+    private void Awake()
+    {
+        inventory = new Inventory();
+        uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
+        uiInventory.SetInventory(inventory);
+
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(3, 4), new Item { itemType = Item.ItemType.StickWorld, amount = 5 });
+        ItemWorld.SpawnItemWorld(new Vector3(-2, -2), new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
+        if (itemWorld != null)
+        {
+            //Touching Item
+            inventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -70,6 +105,22 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             harvestDown = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if(inventoryOpen == true)
+            {
+                InventoryObject.SetActive(false);
+                inventoryOpen = false;
+                return;
+            }
+
+            if(inventoryOpen == false)
+            {
+                InventoryObject.SetActive(true);
+                inventoryOpen = true;
+            }
         }
 
     }
