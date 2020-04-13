@@ -37,11 +37,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        inventory = new Inventory();
+        inventory = new Inventory(UseItem);
         uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
+        uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
 
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 2 });
         ItemWorld.SpawnItemWorld(new Vector3(3, 4), new Item { itemType = Item.ItemType.StickWorld, amount = 5 });
         ItemWorld.SpawnItemWorld(new Vector3(-2, -2), new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
     }
@@ -54,6 +55,17 @@ public class PlayerMovement : MonoBehaviour
             //Touching Item
             inventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
+        }
+    }
+
+    private void UseItem(Item item)
+    {
+        switch (item.itemType)
+        {
+            //ADD ITEMS HERE AND SWORD LOGIC OR WEAPON EQUIPS
+            case Item.ItemType.WoodenAxeWorld:
+                inventory.RemoveItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+                break;
         }
     }
 

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CodeMonkey.Utils;
 public class UI_Inventory : MonoBehaviour
 {
 
     private Inventory Inventory;
     private Transform ItemSlotContainer;
     private Transform ItemSlotTemplate;
+    private PlayerMovement player;
 
     //public void Start()
    // {
@@ -17,6 +19,11 @@ public class UI_Inventory : MonoBehaviour
     {
         ItemSlotContainer = transform.Find("ItemSlotContainer");
         ItemSlotTemplate = ItemSlotContainer.Find("ItemSlotTemplate");
+    }
+
+    public void SetPlayer(PlayerMovement player)
+    {
+        this.player = player;
     }
 
     public void SetInventory(Inventory inventory)
@@ -46,6 +53,19 @@ public class UI_Inventory : MonoBehaviour
         {
             RectTransform itemSlotRectTransform = Instantiate(ItemSlotTemplate, ItemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
+
+            itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
+            {
+                //use item
+                Inventory.UseItem(item);
+            };
+            itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
+            {
+                //drop item
+                Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
+                Inventory.RemoveItem(item);
+                ItemWorld.DropItem(player.gameObject.transform.position, duplicateItem);
+            };
 
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
             Image image = itemSlotRectTransform.Find("Item").GetComponent<Image>();
