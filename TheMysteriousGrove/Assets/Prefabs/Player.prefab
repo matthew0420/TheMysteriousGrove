@@ -130,6 +130,12 @@ MonoBehaviour:
   botTile: {fileID: 0}
   canHarvest: 0
   harvestUp: 0
+  harvestDown: 0
+  inventoryOpen: 0
+  InventoryObject: {fileID: 0}
+  equippedWoodenAxe: {fileID: 2178137056124476893, guid: 12b1948be14f41241a0a75c059c326fa,
+    type: 3}
+  uiInventory: {fileID: 0}
 --- !u!95 &1226416143247521886
 Animator:
   serializedVersion: 3

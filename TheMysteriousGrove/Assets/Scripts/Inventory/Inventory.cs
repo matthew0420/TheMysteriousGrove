@@ -3,13 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public class Inventory : MonoBehaviour
 {
     public event EventHandler OnItemListChanged;
+
+    public PlayerMovement playerMovementScript;
 
     private List<Item> itemList;
   
     private Action<Item> useItemAction;
+
+    public void Start()
+    {
+        Invoke("findPlayer", 0.1f);
+    }
+
+    public void findPlayer()
+    {
+        playerMovementScript = GetComponent<PlayerMovement>();
+    }
 
     public Inventory(Action<Item> useItemAction)
     {
@@ -75,7 +87,10 @@ public class Inventory
 
     public void UseItem(Item item)
     {
-        useItemAction(item);
+        //if item can be equipped, remove it from the itemlist
+        // itemList.Remove(item);
+       // playerMovementScript.UseItem(item);
+        //useItemAction(item);
     }
 
     public List<Item> GetItemList()

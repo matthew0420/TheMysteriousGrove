@@ -25,6 +25,12 @@ public class PlayerMovement : MonoBehaviour
     public bool inventoryOpen = false;
     public GameObject InventoryObject;
 
+    public GameObject equippedTool;
+    public GameObject equippedWoodenAxe;
+
+    public Item currentlyEquipped;
+
+    public bool moveRight = true;
     [SerializeField] private UI_Inventory uiInventory;
     private Inventory inventory;
 
@@ -32,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         InventoryObject = GameObject.FindGameObjectWithTag("UI_Inventory");
         InventoryObject.SetActive(false);
-       // uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
+        // uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
     }
 
     private void Awake()
@@ -58,13 +64,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void UseItem(Item item)
+    public void UseItem(Item item)
     {
         switch (item.itemType)
         {
             //ADD ITEMS HERE AND SWORD LOGIC OR WEAPON EQUIPS
+            //if item is a consumable, run a function to consume item
+            //if item is a weapon or tool, run a function to equip it
             case Item.ItemType.WoodenAxeWorld:
-                inventory.RemoveItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+                Debug.Log("Equip Item");
+                EquipItem(item);
+                inventory.RemoveItem(item);
+                break;
+        }
+    }
+
+    public void EquipItem(Item item)
+    {
+        switch (item.itemType)
+        {
+            case Item.ItemType.WoodenAxeWorld:
+                if (moveRight == true)
+                {
+                    equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x + 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
+                }
+                if (moveRight == false)
+                {
+                    equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x - 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), transform.rotation * Quaternion.Euler (0f, 180f, 0f));
+                }
+                this.equippedTool.transform.parent = playerObject.transform;
                 break;
         }
     }
@@ -82,10 +110,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerHorizontal == -1)
         {
+            moveRight = false;
             playerObject.transform.localScale = new Vector3(-1, playerObject.transform.localScale.y, playerObject.transform.localScale.z);
         }
         if (playerHorizontal == 1)
         {
+            moveRight = true;
             playerObject.transform.localScale = new Vector3(1, playerObject.transform.localScale.y, playerObject.transform.localScale.z);
         }
 
