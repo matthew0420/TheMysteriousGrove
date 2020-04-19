@@ -8,6 +8,7 @@ TagManager:
   - Water
   - Inventory
   - UI_Inventory
+  - WoodenAxe
   layers:
   - Default
   - TransparentFX

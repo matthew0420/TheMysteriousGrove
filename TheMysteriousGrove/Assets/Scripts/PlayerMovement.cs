@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject equippedTool;
     public GameObject equippedWoodenAxe;
+    public bool itemIsEquipped = false;
 
     public Item currentlyEquipped;
 
@@ -72,30 +73,48 @@ public class PlayerMovement : MonoBehaviour
             //if item is a consumable, run a function to consume item
             //if item is a weapon or tool, run a function to equip it
             case Item.ItemType.WoodenAxeWorld:
-                Debug.Log("Equip Item");
-                EquipItem(item);
-                inventory.RemoveItem(item);
+                if (itemIsEquipped == false)
+                {
+                    Debug.Log("Equip Item");
+                    EquipItem(item);
+                    inventory.RemoveItem(item);
+                }
                 break;
         }
     }
 
     public void EquipItem(Item item)
     {
-        switch (item.itemType)
-        {
-            case Item.ItemType.WoodenAxeWorld:
-                if (moveRight == true)
-                {
-                    equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x + 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
-                }
-                if (moveRight == false)
-                {
-                    equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x - 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), transform.rotation * Quaternion.Euler (0f, 180f, 0f));
-                }
-                this.equippedTool.transform.parent = playerObject.transform;
-                break;
+            switch (item.itemType)
+            {
+                case Item.ItemType.WoodenAxeWorld:
+                    if (moveRight == true)
+                    {
+                        equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x + 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
+                    }
+                    if (moveRight == false)
+                    {
+                        equippedTool = Instantiate(equippedWoodenAxe, new Vector3(playerObject.transform.position.x - 0.3f, playerObject.transform.position.y, playerObject.transform.position.z), transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+                    }
+                    this.equippedTool.transform.parent = playerObject.transform;
+                    itemIsEquipped = true;
+                    break;    
         }
     }
+
+    public void UnequipItem()
+    {
+        if (itemIsEquipped == true)
+        {
+            if (equippedTool.tag == "WoodenAxe")
+            {
+                inventory.AddItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+                Destroy(equippedTool);
+                itemIsEquipped = false;
+            }
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -163,6 +182,11 @@ public class PlayerMovement : MonoBehaviour
                 InventoryObject.SetActive(true);
                 inventoryOpen = true;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UnequipItem();
         }
 
     }
