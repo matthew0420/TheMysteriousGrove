@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Item
 {
+    //defines item types
     public enum ItemType
     {
         Stick,
@@ -13,12 +14,12 @@ public class Item
         Stone,
         WoodenAxe,
         WoodenAxeWorld,
-
     }
 
     public ItemType itemType;
     public int amount;
 
+    //gets sprite for each possible item type
     public Sprite GetSprite()
     {
         switch (itemType)
@@ -34,6 +35,7 @@ public class Item
         }
     }
 
+    //differentiates between items that can be stacked and those that cannot stack
     public bool IsStackable()
     {
         switch (itemType)

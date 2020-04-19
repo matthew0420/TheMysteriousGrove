@@ -17,6 +17,7 @@ public class ItemWorld : MonoBehaviour
         return itemWorld;
     }
 
+    //drops a physical item into the world and pushes it in a random direction
     public static ItemWorld DropItem(Vector3 dropPosition, Item item)
     {
         Vector3 randomDir = UtilsClass.GetRandomDir();
@@ -37,6 +38,7 @@ public class ItemWorld : MonoBehaviour
         //itemTextBackground = transform.FindChild("textBackground").GetComponent<Image>();
         this.itemTextBackground.gameObject.SetActive(false);
     }
+
     public void SetItem(Item item)
     {
         this.item = item;

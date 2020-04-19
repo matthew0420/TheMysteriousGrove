@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
             harvestDown = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown("tab"))
         {
             if(inventoryOpen == true)
             {

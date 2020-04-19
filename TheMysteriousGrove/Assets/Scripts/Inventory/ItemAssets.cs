@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemAssets : MonoBehaviour
 {
+    //holds the 'assets' for the items, 
+    //in this case its holding a transform and all of the possible sprite
     public static ItemAssets Instance { get; private set; }
 
     private void Awake()
