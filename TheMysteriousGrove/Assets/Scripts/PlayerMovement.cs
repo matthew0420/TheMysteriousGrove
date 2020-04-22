@@ -219,6 +219,12 @@ public class PlayerMovement : MonoBehaviour
                     PlayerAudio.clip = TreeChop;
                     PlayerAudio.Play();
                 }
+
+                if (this.gameObject.transform.childCount == 0)
+                {
+                    inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+                }
+
             }
 
 
@@ -228,6 +234,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -252,6 +259,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -259,6 +272,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -283,6 +297,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -290,6 +310,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -315,6 +336,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -322,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -337,7 +365,6 @@ public class PlayerMovement : MonoBehaviour
             Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
             tile = currentTileMap.GetTile(intPosition);
             //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-            
             foreach (Transform child in this.transform)
             {
                 if (child.CompareTag("WoodenAxe"))
@@ -348,6 +375,12 @@ public class PlayerMovement : MonoBehaviour
                     PlayerAudio.Play();
                 }
             }
+            
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
 
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
@@ -356,6 +389,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -380,6 +414,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -387,6 +427,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -411,6 +452,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -418,6 +465,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
@@ -442,6 +490,12 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (this.gameObject.transform.childCount == 0)
+            {
+                Debug.Log("yee");
+                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+            }
+
 
             if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
             {
@@ -449,6 +503,7 @@ public class PlayerMovement : MonoBehaviour
                 currentTileMap.RefreshTile(intPosition);
                 PlayerAudio.clip = TreeFall;
                 PlayerAudio.Play();
+                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                 collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
             }
             canHarvest = false;
