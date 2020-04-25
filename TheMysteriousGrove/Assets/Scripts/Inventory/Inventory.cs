@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour
 
     public PlayerMovement playerMovementScript;
 
+    public bool itemInInventory;
+
     private List<Item> itemList;
   
     private Action<Item> useItemAction;
@@ -29,10 +31,11 @@ public class Inventory : MonoBehaviour
         this.useItemAction = useItemAction;
         itemList = new List<Item>();
 
-        AddItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+       /* AddItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
         AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 5 });
         AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 1 });
+        */
     }
 
     //how items are normally added to the inventory
@@ -64,6 +67,20 @@ public class Inventory : MonoBehaviour
         }
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool CheckItem(Item item)
+    {
+         itemInInventory = false;
+         foreach (Item inventoryItem in itemList)
+         { 
+             if (inventoryItem.itemType == item.itemType)
+             {
+                itemInInventory = true;
+                return true;
+             }
+         }
+        return false;
     }
 
     //used to remove items from the inventory

@@ -9,6 +9,7 @@ TagManager:
   - Inventory
   - UI_Inventory
   - WoodenAxe
+  - UI_Crafting
   layers:
   - Default
   - TransparentFX

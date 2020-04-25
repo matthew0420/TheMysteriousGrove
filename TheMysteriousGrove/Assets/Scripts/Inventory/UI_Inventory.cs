@@ -6,7 +6,7 @@ using CodeMonkey.Utils;
 public class UI_Inventory : MonoBehaviour
 {
 
-    private Inventory Inventory;
+    public Inventory Inventory;
     private Transform ItemSlotContainer;
     private Transform ItemSlotTemplate;
     private PlayerMovement player;

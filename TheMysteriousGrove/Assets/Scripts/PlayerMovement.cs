@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool inventoryOpen = false;
     public GameObject InventoryObject;
+    public GameObject CraftingObject;
+    public bool craftingOpen = false;
 
     public GameObject equippedTool;
     public GameObject equippedWoodenAxe;
@@ -33,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool moveRight = true;
     [SerializeField] private UI_Inventory uiInventory;
-    private Inventory inventory;
+    public Inventory inventory;
 
     public AudioClip TreeChop;
     public AudioClip TreeFall;
@@ -43,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
     {
         InventoryObject = GameObject.FindGameObjectWithTag("UI_Inventory");
         InventoryObject.SetActive(false);
+
+        CraftingObject = GameObject.FindGameObjectWithTag("UI_Crafting");
+        CraftingObject.SetActive(false);
         // uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
     }
 
@@ -53,9 +58,10 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
 
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 2 });
+      /*  ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 2 });
         ItemWorld.SpawnItemWorld(new Vector3(3, 4), new Item { itemType = Item.ItemType.StickWorld, amount = 5 });
         ItemWorld.SpawnItemWorld(new Vector3(-2, -2), new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
+        */
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -185,6 +191,22 @@ public class PlayerMovement : MonoBehaviour
             {
                 InventoryObject.SetActive(true);
                 inventoryOpen = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (craftingOpen == true)
+            {
+                CraftingObject.SetActive(false);
+                craftingOpen = false;
+                return;
+            }
+
+            if (craftingOpen == false)
+            {
+                CraftingObject.SetActive(true);
+                craftingOpen = true;
             }
         }
 
