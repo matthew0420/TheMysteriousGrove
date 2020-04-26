@@ -14,6 +14,7 @@ public class Item
         Stone,
         WoodenAxe,
         WoodenAxeWorld,
+        CampFire
     }
 
     public ItemType itemType;
@@ -32,6 +33,7 @@ public class Item
             case ItemType.WoodenAxeWorld: return ItemAssets.Instance.WoodenAxeSpriteOutline;
             case ItemType.StickWorld: return ItemAssets.Instance.StickSpriteOutline;
             case ItemType.LogWorld: return ItemAssets.Instance.LogSpriteOutline;
+            case ItemType.CampFire: return ItemAssets.Instance.CampFireSprite;
         }
     }
 
@@ -45,6 +47,7 @@ public class Item
             case ItemType.StickWorld:
                 return true;
             case ItemType.WoodenAxeWorld:
+            case ItemType.CampFire:
                 return false;
         }
     }

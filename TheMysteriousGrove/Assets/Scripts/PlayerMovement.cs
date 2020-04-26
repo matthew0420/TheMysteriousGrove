@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject equippedTool;
     public GameObject equippedWoodenAxe;
+    public GameObject campFireCraftStation;
     public bool itemIsEquipped = false;
 
     public Item currentlyEquipped;
@@ -90,6 +91,11 @@ public class PlayerMovement : MonoBehaviour
                     inventory.RemoveItem(item);
                 }
                 break;
+            case Item.ItemType.CampFire:
+                    Debug.Log("Equip Item");
+                    EquipItem(item);
+                    inventory.RemoveItem(item);
+                    break;
         }
     }
 
@@ -108,7 +114,10 @@ public class PlayerMovement : MonoBehaviour
                     }
                     this.equippedTool.transform.parent = playerObject.transform;
                     itemIsEquipped = true;
-                    break;    
+                    break;
+            case Item.ItemType.CampFire:
+                Instantiate(campFireCraftStation, new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
+                break;
         }
     }
 

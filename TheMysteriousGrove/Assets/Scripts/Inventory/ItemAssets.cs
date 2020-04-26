@@ -22,4 +22,5 @@ public class ItemAssets : MonoBehaviour
     public Sprite WoodenAxeSpriteOutline;
     public Sprite StickSpriteOutline;
     public Sprite LogSpriteOutline;
+    public Sprite CampFireSprite;
 }

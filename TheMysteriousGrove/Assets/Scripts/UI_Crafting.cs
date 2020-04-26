@@ -10,6 +10,7 @@ public class UI_Crafting : MonoBehaviour
     public GameObject playerObject;
     public PlayerMovement playerScript;
     public GameObject woodenAxeRecipe;
+    public GameObject campFireRecipe;
 
     // Start is called before the first frame update
     void Start()
@@ -23,22 +24,23 @@ public class UI_Crafting : MonoBehaviour
         playerScript = playerObject.GetComponent<PlayerMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ClearRecipe()
     {
         //should clear all recipes displayed
+        //this is called in the UI button before the recipe is selected
         woodenAxeRecipe.SetActive(false);
+        campFireRecipe.SetActive(false);
     }
 
     public void SelectCraftWoodenAxe ()
     {
         woodenAxeRecipe.SetActive(true);
         //display 5 sticks in crafting space
+    }
+
+    public void SelectCampFire()
+    {
+        campFireRecipe.SetActive(true);
     }
 
     public void CraftWoodenAxe ()
@@ -53,11 +55,28 @@ public class UI_Crafting : MonoBehaviour
         }
     }
 
+    public void CraftCampFire()
+    {
+        if (playerScript.inventory.CheckItem(new Item { itemType = Item.ItemType.LogWorld, amount = 5 }) == true)
+        {
+            playerScript.inventory.AddItem(new Item { itemType = Item.ItemType.CampFire, amount = 1 });
+            playerScript.inventory.RemoveItem(new Item { itemType = Item.ItemType.LogWorld, amount = 5 });
+        }
+        else
+        {
+            Debug.Log("No sticks in inventory!");
+        }
+    }
+
     public void Craft ()
     {
         if (woodenAxeRecipe.activeInHierarchy)
         {
             CraftWoodenAxe();
+        }
+        if (campFireRecipe.activeInHierarchy)
+        {
+            CraftCampFire();
         }
     }
 }
