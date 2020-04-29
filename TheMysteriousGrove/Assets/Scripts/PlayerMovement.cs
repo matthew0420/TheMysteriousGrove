@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canHarvest = false;
     public bool harvestUp = false;
     public bool harvestDown = false;
+    public string lastHarvestDirection;
 
     public bool inventoryOpen = false;
     public GameObject InventoryObject;
@@ -230,6 +231,29 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
     }
+
+    //will be replacing the current collisionenter system at a later date with a more efficient raycasting system
+    /*
+     *if player is walking up
+      RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up);
+
+     *if player is walking down
+      RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
+
+       *if player is walking right yada yada
+      RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right);
+
+        ------------------
+        THEN
+        -------------------
+
+       if (hit.collider != null && hit.collider.gameobject.tag != "Player" && other conditionals yada yada)
+        {
+            now I can not have to past everything 4 times in both on collision enter AND stay, the vector should always be pointing
+            in the right direction beforehand, consider using circlecast to cast to an area larger than a technically infitiely small line, 
+            for more easily hitting enemies yada yada
+        }
+    */
 
     void OnCollisionEnter2D(Collision2D collision)
     {

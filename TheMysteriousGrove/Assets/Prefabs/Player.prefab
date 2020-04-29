@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1226416143247521873}
   - component: {fileID: 1226416143247521872}
   - component: {fileID: 1226416143247521886}
-  - component: {fileID: 9137328650001994986}
   - component: {fileID: -4369909811636079699}
   - component: {fileID: 8936350858592290072}
+  - component: {fileID: 4830574393522820677}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -133,6 +133,7 @@ MonoBehaviour:
   canHarvest: 0
   harvestUp: 0
   harvestDown: 0
+  lastHarvestDirection: 
   inventoryOpen: 0
   InventoryObject: {fileID: 0}
   CraftingObject: {fileID: 0}
@@ -168,32 +169,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &9137328650001994986
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226416143247521877}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.014429808, y: -0.1875875}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5382457, y: 0.624825}
-  m_EdgeRadius: 0
 --- !u!82 &-4369909811636079699
 AudioSource:
   m_ObjectHideFlags: 0
@@ -306,3 +281,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.2158159}
   serializedVersion: 2
   m_Radius: 0.2841841
+--- !u!58 &4830574393522820677
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226416143247521877}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.75
