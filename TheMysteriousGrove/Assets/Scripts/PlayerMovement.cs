@@ -3,45 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
 public class PlayerMovement : MonoBehaviour
 {
+    //stuff for the player's parameters
     public float moveSpeed = 5f;
     public float playerHorizontal;
-    public float reach;
+    public float reach = 1f;
+    public bool moveRight = true;
+    public bool canHarvest = false;
     public GameObject playerObject;
-
     public Rigidbody2D rb;
     public Animator animator;
-
     public Vector2 movement;
-    public Tilemap currentTileMap;
-    public TileBase tile;
-    public Tile botTile;
-    public bool canHarvest = false;
-    public bool harvestUp = false;
-    public bool harvestDown = false;
-    public string lastHarvestDirection;
 
-    public bool inventoryOpen = false;
-    public GameObject InventoryObject;
-    public GameObject CraftingObject;
-    public bool craftingOpen = false;
-
-    public GameObject equippedTool;
-    public GameObject equippedWoodenAxe;
-    public GameObject campFireCraftStation;
-    public bool itemIsEquipped = false;
-
-    public Item currentlyEquipped;
-
-    public bool moveRight = true;
-    [SerializeField] private UI_Inventory uiInventory;
-    public Inventory inventory;
-
+    //audio stuff
     public AudioClip TreeChop;
     public AudioClip TreeFall;
     public AudioSource PlayerAudio;
+
+    //tile stuff
+    Vector3 worldPoint;
+    public Tilemap currentTileMap;
+    public TileBase tile;
+    public Tile botTile;
+    RaycastHit2D collision;
+    public string rayCastDirection;
+
+    //menus and storage stuff
+    public bool inventoryOpen = false;
+    public bool craftingOpen = false;
+    public bool itemIsEquipped = false;
+    public GameObject InventoryObject;
+    public GameObject CraftingObject;
+    public GameObject equippedTool;
+    public GameObject equippedWoodenAxe;
+    public GameObject campFireCraftStation;
+    public Item currentlyEquipped;
+    [SerializeField] private UI_Inventory uiInventory;
+    public Inventory inventory;
 
     public void Start()
     {
@@ -50,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
 
         CraftingObject = GameObject.FindGameObjectWithTag("UI_Crafting");
         CraftingObject.SetActive(false);
-        // uiInventory = (UI_Inventory)FindObjectOfType(typeof(UI_Inventory));
     }
 
     private void Awake()
@@ -60,10 +58,8 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
 
-      /*  ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 2 });
-        ItemWorld.SpawnItemWorld(new Vector3(3, 4), new Item { itemType = Item.ItemType.StickWorld, amount = 5 });
-        ItemWorld.SpawnItemWorld(new Vector3(-2, -2), new Item { itemType = Item.ItemType.WoodenAxeWorld, amount = 1 });
-        */
+        //How to spawn stuff in the world
+        //ItemWorld.SpawnItemWorld(new Vector3(0, 0), new Item { itemType = Item.ItemType.LogWorld, amount = 2 });
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -81,9 +77,6 @@ public class PlayerMovement : MonoBehaviour
     {
         switch (item.itemType)
         {
-            //ADD ITEMS HERE AND SWORD LOGIC OR WEAPON EQUIPS
-            //if item is a consumable, run a function to consume item
-            //if item is a weapon or tool, run a function to equip it
             case Item.ItemType.WoodenAxeWorld:
                 if (itemIsEquipped == false)
                 {
@@ -117,8 +110,8 @@ public class PlayerMovement : MonoBehaviour
                     itemIsEquipped = true;
                     break;
             case Item.ItemType.CampFire:
-                Instantiate(campFireCraftStation, new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
-                break;
+                    Instantiate(campFireCraftStation, new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z), Quaternion.identity);
+                    break;
         }
     }
 
@@ -135,8 +128,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -158,11 +149,6 @@ public class PlayerMovement : MonoBehaviour
             playerObject.transform.localScale = new Vector3(1, playerObject.transform.localScale.y, playerObject.transform.localScale.z);
         }
 
-        if (Input.GetKeyDown("space"))
-        {
-            canHarvest = true;
-            //Harvest();
-        }
         if (Input.GetKeyUp("space"))
         {
             canHarvest = false;
@@ -170,28 +156,38 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            harvestUp = true;
-            //Harvest();
+            rayCastDirection = "up";
         }
-        if (Input.GetKeyUp(KeyCode.W))
+
+        if (Input.GetKey(KeyCode.A))
         {
-            harvestUp = false;
+            rayCastDirection = "left";
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            harvestDown = true;
-            //Harvest();
+            rayCastDirection = "down";
         }
-        if (Input.GetKeyUp(KeyCode.S))
+
+        if (Input.GetKey(KeyCode.D))
         {
-            harvestDown = false;
+            rayCastDirection = "right";
+        }
+
+        if (Input.GetKeyDown("space"))
+        {
+            canHarvest = true;
         }
 
         if (Input.GetKeyDown("tab"))
         {
             if(inventoryOpen == true)
             {
+                if (CraftingObject.activeInHierarchy == true)
+                {
+                    CraftingObject.SetActive(false);
+                    craftingOpen = false;
+                }
                 InventoryObject.SetActive(false);
                 inventoryOpen = false;
                 return;
@@ -199,8 +195,14 @@ public class PlayerMovement : MonoBehaviour
 
             if(inventoryOpen == false)
             {
+                if (CraftingObject.activeInHierarchy == true)
+                {
+                    CraftingObject.SetActive(false);
+                    craftingOpen = false;
+                }
                 InventoryObject.SetActive(true);
                 inventoryOpen = true;
+                return;
             }
         }
 
@@ -208,6 +210,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (craftingOpen == true)
             {
+                if (InventoryObject.activeInHierarchy == true)
+                {
+                    InventoryObject.SetActive(false);
+                    inventoryOpen = false;
+                }
                 CraftingObject.SetActive(false);
                 craftingOpen = false;
                 return;
@@ -215,383 +222,101 @@ public class PlayerMovement : MonoBehaviour
 
             if (craftingOpen == false)
             {
+                if (InventoryObject.activeInHierarchy == true)
+                {
+                    InventoryObject.SetActive(false);
+                    inventoryOpen = false;
+                }
                 CraftingObject.SetActive(true);
                 craftingOpen = true;
+                return;
             }
         }
-
+        Debug.DrawRay(transform.position, Vector2.up * 1f, Color.green);
         if (Input.GetKeyDown(KeyCode.E))
         {
             UnequipItem();
         }
 
+        if (canHarvest == true)
+        {
+            if(rayCastDirection == "up")
+            {
+                collision = Physics2D.Raycast(transform.position, new Vector2(0f,0.02f));
+            }
+            if (rayCastDirection == "down")
+            {
+                collision = Physics2D.Raycast(transform.position, new Vector2(0f, -0.02f));
+            }
+            if (rayCastDirection == "right")
+            {
+                collision = Physics2D.Raycast(transform.position, new Vector2(0.02f, 0f));
+            }
+            if (rayCastDirection == "left")
+            {
+                collision = Physics2D.Raycast(transform.position, new Vector2(-0.02f, 0f));
+            }
+
+            if (collision.collider != null)
+            {
+                if (collision.collider.gameObject.tag == "Forest")
+                {
+                    currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
+                    if (rayCastDirection == "up")
+                    {
+                        worldPoint = new Vector3(this.transform.position.x, this.transform.position.y + reach, this.transform.position.z);
+                    }
+                    if (rayCastDirection == "down")
+                    {
+                        worldPoint = new Vector3(this.transform.position.x, this.transform.position.y - reach, this.transform.position.z);
+                    }
+                    if (rayCastDirection == "right")
+                    {
+                        worldPoint = new Vector3(this.transform.position.x + reach, this.transform.position.y, this.transform.position.z);
+                    }
+                    if (rayCastDirection == "left")
+                    {
+                        worldPoint = new Vector3(this.transform.position.x - reach, this.transform.position.y, this.transform.position.z);
+                    }
+
+                    Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
+                    tile = currentTileMap.GetTile(intPosition);
+
+                    if (tile != null)
+                    {
+                        foreach (Transform child in this.transform)
+                        {
+                            if (child.CompareTag("WoodenAxe"))
+                            {
+                                collision.collider.gameObject.GetComponent<TreeScript>().ChopTree(2);
+                                PlayerAudio.clip = TreeChop;
+                                PlayerAudio.Play();
+                            }
+                        }
+
+                        if (this.gameObject.transform.childCount == 0)
+                        {
+                            inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+                        }
+
+                        if (collision.collider.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
+                        {
+                            currentTileMap.SetTile(intPosition, null);
+                            currentTileMap.RefreshTile(intPosition);
+                            PlayerAudio.clip = TreeFall;
+                            PlayerAudio.Play();
+                            inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
+                            collision.collider.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
+                        }
+                    }     
+                }
+            }
+            canHarvest = false;
+        }
     }
 
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
-    }
-
-    //will be replacing the current collisionenter system at a later date with a more efficient raycasting system
-    /*
-     *if player is walking up
-      RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up);
-
-     *if player is walking down
-      RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
-
-       *if player is walking right yada yada
-      RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right);
-
-        ------------------
-        THEN
-        -------------------
-
-       if (hit.collider != null && hit.collider.gameobject.tag != "Player" && other conditionals yada yada)
-        {
-            now I can not have to past everything 4 times in both on collision enter AND stay, the vector should always be pointing
-            in the right direction beforehand, consider using circlecast to cast to an area larger than a technically infitiely small line, 
-            for more easily hitting enemies yada yada
-        }
-    */
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && this.transform.localScale.x == 1 && harvestUp == false && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x + reach, this.transform.position.y, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-
-                if (this.gameObject.transform.childCount == 0)
-                {
-                    inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-                }
-
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && this.transform.localScale.x == -1 && harvestUp == false && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x - reach, this.transform.position.y, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && harvestUp == true && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x, this.transform.position.y + reach, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && harvestUp == false && harvestDown == true)
-        {
-
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x, this.transform.position.y - reach, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && this.transform.localScale.x == 1 && harvestUp == false && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x + reach, this.transform.position.y, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-            
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && this.transform.localScale.x == -1 && harvestUp == false && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x - reach, this.transform.position.y, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && harvestUp == true && harvestDown == false)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x, this.transform.position.y + reach, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-            //GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-
-        if (collision.gameObject.tag == "Forest" && canHarvest == true && harvestUp == false && harvestDown == true)
-        {
-            currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-            Vector3 worldPoint = new Vector3(this.transform.position.x, this.transform.position.y - reach, this.transform.position.z);
-            Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-            tile = currentTileMap.GetTile(intPosition);
-           // GameObject tileObject = currentTileMap.GetInstantiatedObject(intPosition);
-
-            foreach (Transform child in this.transform)
-            {
-                if (child.CompareTag("WoodenAxe"))
-                {
-                    Debug.Log("Wooden axe equipped");
-                    collision.gameObject.GetComponent<TreeScript>().ChopTree(2);
-                    PlayerAudio.clip = TreeChop;
-                    PlayerAudio.Play();
-                }
-            }
-
-            if (this.gameObject.transform.childCount == 0)
-            {
-                Debug.Log("yee");
-                inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
-            }
-
-
-            if (collision.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
-            {
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-                PlayerAudio.clip = TreeFall;
-                PlayerAudio.Play();
-                inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
-                collision.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
-            }
-            canHarvest = false;
-        }
-    }
-    public void Harvest()
-    {
-        Debug.Log("Harvest time");
-        if (this.transform.localScale.x == 1)
-        {
-            RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.right, reach);
-            if (hitInfo.collider != null)
-            {
-                Debug.Log(hitInfo);
-                currentTileMap = hitInfo.collider.gameObject.GetComponent<Tilemap>();
-                Vector3 worldPoint = hitInfo.transform.position;
-                Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
-                Debug.Log(intPosition);
-                tile = currentTileMap.GetTile(intPosition);
-                Debug.Log(currentTileMap);
-                Debug.Log("Current tile is: " + tile);
-                currentTileMap.SetTile(intPosition, null);
-                currentTileMap.RefreshTile(intPosition);
-            }
-        }
-        if (this.transform.localScale.x == -1)
-        {
-            RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, -transform.right, reach);
-            if (hitInfo.collider != null)
-            {
-                Debug.Log(hitInfo.collider.gameObject);
-                Debug.DrawLine(transform.position, hitInfo.point, Color.red);
-            }
-        }
     }
 }
