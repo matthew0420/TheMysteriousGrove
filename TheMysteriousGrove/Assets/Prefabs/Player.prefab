@@ -123,33 +123,31 @@ MonoBehaviour:
   moveSpeed: 5
   playerHorizontal: 0
   reach: 1
+  moveRight: 1
+  canHarvest: 0
   playerObject: {fileID: 1226416143247521877}
   rb: {fileID: 1226416143247521873}
   animator: {fileID: 1226416143247521886}
   movement: {x: 0, y: 0}
+  TreeChop: {fileID: 8300000, guid: bce30d82e075ed947810da28863196da, type: 3}
+  TreeFall: {fileID: 8300000, guid: dc41d3ce42d2d3945af1dc8a5544b619, type: 3}
+  PlayerAudio: {fileID: -4369909811636079699}
   currentTileMap: {fileID: 0}
   tile: {fileID: 0}
   botTile: {fileID: 0}
-  canHarvest: 0
-  harvestUp: 0
-  harvestDown: 0
-  lastHarvestDirection: 
+  rayCastDirection: 
   inventoryOpen: 0
+  craftingOpen: 0
+  itemIsEquipped: 0
   InventoryObject: {fileID: 0}
   CraftingObject: {fileID: 0}
-  craftingOpen: 0
   equippedTool: {fileID: 0}
   equippedWoodenAxe: {fileID: 2178137056124476893, guid: 12b1948be14f41241a0a75c059c326fa,
     type: 3}
   campFireCraftStation: {fileID: 1282991144829815219, guid: 7b8fdf520fd893c408f34224ebae7186,
     type: 3}
-  itemIsEquipped: 0
-  moveRight: 1
   uiInventory: {fileID: 0}
   inventory: {fileID: 0}
-  TreeChop: {fileID: 8300000, guid: bce30d82e075ed947810da28863196da, type: 3}
-  TreeFall: {fileID: 8300000, guid: dc41d3ce42d2d3945af1dc8a5544b619, type: 3}
-  PlayerAudio: {fileID: -4369909811636079699}
 --- !u!95 &1226416143247521886
 Animator:
   serializedVersion: 3

@@ -10,6 +10,8 @@ TagManager:
   - UI_Inventory
   - WoodenAxe
   - UI_Crafting
+  - Rabbit
+  - Spawner
   layers:
   - Default
   - TransparentFX
