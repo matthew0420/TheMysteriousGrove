@@ -23,7 +23,7 @@ public class UI_Crafting : MonoBehaviour
         Invoke("FindPlayer", 0.5f);
     }
 
-    public void FindPlayer()
+    private void FindPlayer()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerScript = playerObject.GetComponent<PlayerMovement>();
@@ -35,10 +35,7 @@ public class UI_Crafting : MonoBehaviour
         //this is called in the UI button before the recipe is selected
         woodenAxeRecipe.SetActive(false);
         campFireRecipe.SetActive(false);
-        if (campFireActive == true)
-        {
-            cookedRabbitRecipe.SetActive(false);
-        }
+        cookedRabbitRecipe.SetActive(false);
     }
 
     public void SelectCraftWoodenAxe ()

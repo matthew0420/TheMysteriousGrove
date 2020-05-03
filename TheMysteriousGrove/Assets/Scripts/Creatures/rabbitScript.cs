@@ -54,7 +54,7 @@ public class rabbitScript : MonoBehaviour
         NormalMovement();
     }
 
-    void FindPlayer()
+    private void FindPlayer()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         creatureSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<CreatureSpawner>();

@@ -34,6 +34,7 @@ public class CraftingItem : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             crafting.cookedRabbitRecipeIcon.SetActive(false);
+            crafting.cookedRabbitRecipe.SetActive(false);
             crafting.campFireActive = false;
         }
     }

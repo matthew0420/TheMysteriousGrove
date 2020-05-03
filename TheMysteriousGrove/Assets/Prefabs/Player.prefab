@@ -129,8 +129,15 @@ MonoBehaviour:
   rb: {fileID: 1226416143247521873}
   animator: {fileID: 1226416143247521886}
   movement: {x: 0, y: 0}
+  playerHealth: 100
+  playerHunger: 100
+  playerThirst: 100
   TreeChop: {fileID: 8300000, guid: bce30d82e075ed947810da28863196da, type: 3}
   TreeFall: {fileID: 8300000, guid: dc41d3ce42d2d3945af1dc8a5544b619, type: 3}
+  GatherSticks: {fileID: 8300000, guid: 213f47f9264778d4898e77ae3d403e2d, type: 3}
+  Eat: {fileID: 8300000, guid: 9fa8dbf58de590345afbbe99dad02ee8, type: 3}
+  Drink: {fileID: 8300000, guid: 65bd2c50a4daf4c42bd94bd2003a20bf, type: 3}
+  HitRabbit: {fileID: 8300000, guid: 60f00ae4bf40dc548894898aee194a65, type: 3}
   PlayerAudio: {fileID: -4369909811636079699}
   currentTileMap: {fileID: 0}
   tile: {fileID: 0}

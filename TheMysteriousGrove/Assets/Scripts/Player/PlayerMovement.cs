@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     //audio stuff
     public AudioClip TreeChop;
     public AudioClip TreeFall;
+    public AudioClip GatherSticks;
+    public AudioClip Eat;
+    public AudioClip Drink;
+    public AudioClip HitRabbit;
     public AudioSource PlayerAudio;
 
     //tile stuff
@@ -93,9 +97,10 @@ public class PlayerMovement : MonoBehaviour
                     inventory.RemoveItem(item);
                     break;
             case Item.ItemType.CookedRabbit:
-                //play munch sound
+                PlayerAudio.clip = Eat;
+                PlayerAudio.Play();
                 playerHunger = playerHunger + 10f;
-                inventory.RemoveItem(item);
+                inventory.RemoveItem(new Item { itemType = Item.ItemType.CookedRabbit, amount = 1 });
                 break;
 
         }
@@ -306,6 +311,8 @@ public class PlayerMovement : MonoBehaviour
                         if (this.gameObject.transform.childCount == 0)
                         {
                             inventory.AddItem(new Item { itemType = Item.ItemType.StickWorld, amount = 1 });
+                            PlayerAudio.clip = GatherSticks;
+                            PlayerAudio.Play();
                         }
 
                         if (collision.collider.gameObject.GetComponent<TreeScript>().treeTileHP <= 0)
@@ -328,6 +335,8 @@ public class PlayerMovement : MonoBehaviour
                         if (child.CompareTag("WoodenAxe"))
                         {
                             collision.collider.gameObject.GetComponent<rabbitScript>().HitRabbit(1);
+                            PlayerAudio.clip = HitRabbit;
+                            PlayerAudio.Play();
                         }
 
                         if (collision.collider.gameObject.GetComponent<rabbitScript>().rabbitHP <= 0)
@@ -340,7 +349,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if (collision.collider.gameObject.tag == "Water")
                 {
-                    //play a sound
+                    PlayerAudio.clip = Drink;
+                    PlayerAudio.Play();
                     playerThirst = playerThirst + 5f;
                 }
             }
