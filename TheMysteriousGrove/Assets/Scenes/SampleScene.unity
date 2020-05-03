@@ -5656,8 +5656,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTime: 0
   currentCreatures: 0
-  maxCreaturesThatCanSpawn: 4
-  spawnTime: 500
+  maxCreaturesThatCanSpawn: 3
+  spawnTime: 800
   rabbitObject: {fileID: 7585140536527539104, guid: 3049df640c4a12d4aa6746519c6b9223,
     type: 3}
   newRabbit: {fileID: 0}

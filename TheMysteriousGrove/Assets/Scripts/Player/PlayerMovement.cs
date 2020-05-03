@@ -16,9 +16,9 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public Vector2 movement;
 
-    public int playerHealth = 100;
-    public int playerHunger = 100;
-    public int playerThirst = 100;
+    public float playerHealth = 100f;
+    public float playerHunger = 100f;
+    public float playerThirst = 100f;
 
     //audio stuff
     public AudioClip TreeChop;
@@ -84,16 +84,20 @@ public class PlayerMovement : MonoBehaviour
             case Item.ItemType.WoodenAxeWorld:
                 if (itemIsEquipped == false)
                 {
-                    Debug.Log("Equip Item");
                     EquipItem(item);
                     inventory.RemoveItem(item);
                 }
                 break;
             case Item.ItemType.CampFire:
-                    Debug.Log("Equip Item");
                     EquipItem(item);
                     inventory.RemoveItem(item);
                     break;
+            case Item.ItemType.CookedRabbit:
+                //play munch sound
+                playerHunger = playerHunger + 10f;
+                inventory.RemoveItem(item);
+                break;
+
         }
     }
 
@@ -264,26 +268,26 @@ public class PlayerMovement : MonoBehaviour
 
             if (collision.collider != null)
             {
+                if (rayCastDirection == "up")
+                {
+                    worldPoint = new Vector3(this.transform.position.x, this.transform.position.y + reach, this.transform.position.z);
+                }
+                if (rayCastDirection == "down")
+                {
+                    worldPoint = new Vector3(this.transform.position.x, this.transform.position.y - reach, this.transform.position.z);
+                }
+                if (rayCastDirection == "right")
+                {
+                    worldPoint = new Vector3(this.transform.position.x + reach, this.transform.position.y, this.transform.position.z);
+                }
+                if (rayCastDirection == "left")
+                {
+                    worldPoint = new Vector3(this.transform.position.x - reach, this.transform.position.y, this.transform.position.z);
+                }
+
                 if (collision.collider.gameObject.tag == "Forest")
                 {
                     currentTileMap = collision.collider.gameObject.GetComponent<Tilemap>();
-                    if (rayCastDirection == "up")
-                    {
-                        worldPoint = new Vector3(this.transform.position.x, this.transform.position.y + reach, this.transform.position.z);
-                    }
-                    if (rayCastDirection == "down")
-                    {
-                        worldPoint = new Vector3(this.transform.position.x, this.transform.position.y - reach, this.transform.position.z);
-                    }
-                    if (rayCastDirection == "right")
-                    {
-                        worldPoint = new Vector3(this.transform.position.x + reach, this.transform.position.y, this.transform.position.z);
-                    }
-                    if (rayCastDirection == "left")
-                    {
-                        worldPoint = new Vector3(this.transform.position.x - reach, this.transform.position.y, this.transform.position.z);
-                    }
-
                     Vector3Int intPosition = currentTileMap.WorldToCell(worldPoint);
                     tile = currentTileMap.GetTile(intPosition);
 
@@ -315,22 +319,29 @@ public class PlayerMovement : MonoBehaviour
                         }
                     }
                 }
-            }
-            if (collision.collider.gameObject.tag == "Rabbit" && collision.collider.isTrigger)
-            {
-                Debug.Log("Hit rabbit");
-                foreach (Transform child in this.transform)
-                {
-                    if (child.CompareTag("WoodenAxe"))
-                    {
-                        collision.collider.gameObject.GetComponent<rabbitScript>().HitRabbit(1);
-                    }
 
-                    if (collision.collider.gameObject.GetComponent<rabbitScript>().rabbitHP <= 0)
+                if (collision.collider.gameObject.tag == "Rabbit" && collision.collider.isTrigger)
+                {
+                    Debug.Log("Hit rabbit");
+                    foreach (Transform child in this.transform)
                     {
-                        inventory.AddItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 });
-                        Destroy(collision.collider.gameObject);
+                        if (child.CompareTag("WoodenAxe"))
+                        {
+                            collision.collider.gameObject.GetComponent<rabbitScript>().HitRabbit(1);
+                        }
+
+                        if (collision.collider.gameObject.GetComponent<rabbitScript>().rabbitHP <= 0)
+                        {
+                            inventory.AddItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 });
+                            Destroy(collision.collider.gameObject);
+                        }
                     }
+                }
+
+                if (collision.collider.gameObject.tag == "Water")
+                {
+                    //play a sound
+                    playerThirst = playerThirst + 5f;
                 }
             }
             canHarvest = false;
@@ -343,27 +354,75 @@ public class PlayerMovement : MonoBehaviour
 
         NourishmentScript();
 
-        if (playerThirst <= 0)
+        if (playerThirst <= 0f)
         {
-            //thirsty script
+            Thirsty();
         }
-        if (playerHunger <= 0)
+        if (playerHunger <= 0f)
         {
-            //hungry script
+            Hungry();
         }
 
-        if (playerHunger >= 50 && playerHealth < 100)
+        if (playerHunger >= 75f && playerHealth < 100f)
         {
-            //heal player
+            PlayerRecover();
         }
-        if (playerThirst >= 50 && playerHealth < 100)
+        if (playerThirst >= 75f && playerHealth < 100f)
         {
-            //heal player
+            PlayerRecover();
         }
     }
 
     public void NourishmentScript()
     {
+        //depletes hunger and thirst meters if they are not 0 already
+        if (playerThirst > 0f)
+        {
+            //0.3f
+            playerThirst = playerThirst - (0.6f * Time.fixedDeltaTime);
+        }
+        if (playerHunger > 0f)
+        {
+            //0.2f
+            playerHunger = playerHunger - (0.4f * Time.fixedDeltaTime);
+        }
 
+        //prevents meters from going too low or too high
+        if (playerThirst < 0f)
+        {
+            playerThirst = 0f;
+        }
+        if (playerThirst > 100f)
+        {
+            playerThirst = 100f;
+        }
+
+        if (playerHunger < 0f)
+        {
+            playerHunger = 0f;
+        }
+        if (playerHunger > 100f)
+        {
+            playerHunger = 100f;
+        }
+
+        if(playerHealth > 100f)
+        {
+            playerHealth = 100f;
+        }
+    }
+
+    public void Thirsty()
+    {
+        playerHealth = playerHealth - (1f * Time.fixedDeltaTime);
+    }
+    public void Hungry()
+    {
+        playerHealth = playerHealth - (1f * Time.fixedDeltaTime);
+    }
+
+    public void PlayerRecover()
+    {
+        playerHealth = playerHealth + (0.4f * Time.fixedDeltaTime);
     }
 }
