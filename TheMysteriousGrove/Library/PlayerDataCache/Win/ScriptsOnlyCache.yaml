@@ -3,16 +3,26 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - CodeMonkey.Assets
     - CodeMonkey.Utils.Button_UI
+    - CraftingItem
+    - CreatureSpawner
     - EquippedItemScript
     - ItemAssets
     - ItemWorld
+    - PlayerHealthBar
+    - PlayerHungerBar
     - PlayerMovement
+    - PlayerThirstBar
+    - SceneManagerScript
     - TileGenerator
     - TreeScript
+    - UI_Crafting
     - UI_Inventory
     - cameraScript
+    - rabbitScript
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
+    - UnityEditor.Tilemaps.GridPaletteBrushes
+    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.2D.Tilemap.Extras.dll:
@@ -26,11 +36,62 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
   sceneClasses:
+    Assets/Scenes/DeathMenu.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11158}
+    - Class: 114
+      Script: {instanceID: 11338}
+    - Class: 114
+      Script: {instanceID: 11380}
+    - Class: 114
+      Script: {instanceID: 11822}
+    - Class: 114
+      Script: {instanceID: 12084}
+    - Class: 114
+      Script: {instanceID: 12264}
+    - Class: 114
+      Script: {instanceID: 12804}
+    - Class: 114
+      Script: {instanceID: 13206}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
     Assets/Scenes/SampleScene.unity:
     - Class: 1
       Script: {instanceID: 0}
@@ -75,29 +136,49 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11560}
     - Class: 114
-      Script: {instanceID: 11820}
+      Script: {instanceID: 11758}
     - Class: 114
-      Script: {instanceID: 11990}
+      Script: {instanceID: 11822}
     - Class: 114
-      Script: {instanceID: 12042}
+      Script: {instanceID: 11878}
     - Class: 114
-      Script: {instanceID: 12196}
+      Script: {instanceID: 11994}
     - Class: 114
-      Script: {instanceID: 12218}
+      Script: {instanceID: 12046}
     - Class: 114
-      Script: {instanceID: 12270}
+      Script: {instanceID: 12084}
     - Class: 114
-      Script: {instanceID: 12696}
+      Script: {instanceID: 12202}
     - Class: 114
-      Script: {instanceID: 12742}
+      Script: {instanceID: 12224}
     - Class: 114
-      Script: {instanceID: 12790}
+      Script: {instanceID: 12264}
     - Class: 114
-      Script: {instanceID: 12934}
+      Script: {instanceID: 12276}
     - Class: 114
-      Script: {instanceID: 13190}
+      Script: {instanceID: 12406}
     - Class: 114
-      Script: {instanceID: 13204}
+      Script: {instanceID: 12426}
+    - Class: 114
+      Script: {instanceID: 12500}
+    - Class: 114
+      Script: {instanceID: 12602}
+    - Class: 114
+      Script: {instanceID: 12710}
+    - Class: 114
+      Script: {instanceID: 12756}
+    - Class: 114
+      Script: {instanceID: 12804}
+    - Class: 114
+      Script: {instanceID: 12922}
+    - Class: 114
+      Script: {instanceID: 12950}
+    - Class: 114
+      Script: {instanceID: 13206}
+    - Class: 114
+      Script: {instanceID: 13220}
+    - Class: 114
+      Script: {instanceID: 13246}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -319,6 +400,12 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
+      Hash: b0e78bff56330ebff49947d39e84970c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerHealthBar
+  - hash:
+      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -349,19 +436,25 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
+      Hash: 098e0fc0395a9784f620e4f948ec260b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: rabbitScript
+  - hash:
+      serializedVersion: 2
       Hash: ab6a2fed0a3d86e42cbaa680bbf9bfac
     assemblyName: Unity.2D.Tilemap.Extras.dll
     namespaceName: UnityEngine.Tilemaps
     className: AnimatedTile
   - hash:
       serializedVersion: 2
-      Hash: 7840f99c1a91cc767c6a685f0c5736e1
+      Hash: 00c2f4178855bf7a8d1652bcc04217e3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Inventory
   - hash:
       serializedVersion: 2
-      Hash: f10dadf20467ddbc5b98c1906a056439
+      Hash: ae7de0876aed53ed971657a40653ab7d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ItemAssets
@@ -379,7 +472,7 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
-      Hash: 3b2958aa8153b6af7121a305f8b5e8dc
+      Hash: 2c6e48cc740234f241175aa431dd32ee
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -389,6 +482,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalTrack
+  - hash:
+      serializedVersion: 2
+      Hash: d695c7effa5dce83c3aaa3ff88cdef66
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SceneManagerScript
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -421,7 +520,7 @@ ScriptsOnlyBuild:
     className: RuleOverrideTile
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 8811a116da275067592d62d0dcff02a2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UI_Inventory
@@ -469,6 +568,18 @@ ScriptsOnlyBuild:
     className: VerticalLayoutGroup
   - hash:
       serializedVersion: 2
+      Hash: b0e78bff56330ebff49947d39e84970c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerThirstBar
+  - hash:
+      serializedVersion: 2
+      Hash: 78e049b2238b3f1e2ba524c8de9138f4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: UI_Crafting
+  - hash:
+      serializedVersion: 2
       Hash: 783f593b9380cf72d0f7ebfd4a0d4bcd
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -479,6 +590,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalReceiver
+  - hash:
+      serializedVersion: 2
+      Hash: 922ff742dcc8853bd3fb93d09ab51fd7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CreatureSpawner
   - hash:
       serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
@@ -521,6 +638,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
+  - hash:
+      serializedVersion: 2
+      Hash: dfba89c6033f0b1b4537706de04ad843
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CraftingItem
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -587,6 +710,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Tilemap.Extras.dll
     namespaceName: UnityEngine.Tilemaps
     className: TerrainTile
+  - hash:
+      serializedVersion: 2
+      Hash: b0e78bff56330ebff49947d39e84970c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerHungerBar
   - hash:
       serializedVersion: 2
       Hash: a89ac3fc431055889d0db5194debad67
@@ -722,4 +851,5 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/DeathMenu.unity
   playerPath: C:/Users/mgiga/Desktop/TheMysteriousGrove/TheMysteriousGrove/TheMysteriousGrove/Builds/TheMysteriousGrove.exe

@@ -5,6 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //spawner stuff
+    public GameObject creatureSpawner;
+    public CreatureSpawner creatureSpawnerScript;
+
     //stuff for the player's parameters
     public float moveSpeed = 5f;
     public float playerHorizontal;
@@ -57,6 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
         CraftingObject = GameObject.FindGameObjectWithTag("UI_Crafting");
         CraftingObject.SetActive(false);
+
+        creatureSpawner = GameObject.FindGameObjectWithTag("Spawner");
+        creatureSpawnerScript = creatureSpawner.GetComponent<CreatureSpawner>();
     }
 
     private void Awake()
@@ -342,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
                         if (collision.collider.gameObject.GetComponent<rabbitScript>().rabbitHP <= 0)
                         {
                             inventory.AddItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 });
+                            creatureSpawnerScript.currentCreatures--;
                             Destroy(collision.collider.gameObject);
                         }
                     }

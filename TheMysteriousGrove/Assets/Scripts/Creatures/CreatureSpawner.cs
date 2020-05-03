@@ -24,11 +24,6 @@ public class CreatureSpawner : MonoBehaviour
         Invoke("FindPlayer", 0.2f);
     }
 
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if (currentTime <= spawnTime)
