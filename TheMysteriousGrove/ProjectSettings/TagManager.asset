@@ -12,6 +12,8 @@ TagManager:
   - UI_Crafting
   - Rabbit
   - Spawner
+  - CampFire
+  - Canvas
   layers:
   - Default
   - TransparentFX

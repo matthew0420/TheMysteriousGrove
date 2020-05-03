@@ -181,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown("tab"))
         {
-            if(inventoryOpen == true)
+            if (inventoryOpen == true)
             {
                 if (CraftingObject.activeInHierarchy == true)
                 {
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
 
-            if(inventoryOpen == false)
+            if (inventoryOpen == false)
             {
                 if (CraftingObject.activeInHierarchy == true)
                 {
@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
-        Debug.DrawRay(transform.position, Vector2.up * 1f, Color.green);
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             UnequipItem();
@@ -240,9 +240,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (canHarvest == true)
         {
-            if(rayCastDirection == "up")
+            if (rayCastDirection == "up")
             {
-                collision = Physics2D.Raycast(transform.position, new Vector2(0f,0.02f));
+                collision = Physics2D.Raycast(transform.position, new Vector2(0f, 0.02f));
             }
             if (rayCastDirection == "down")
             {
@@ -308,7 +308,24 @@ public class PlayerMovement : MonoBehaviour
                             inventory.AddItem(new Item { itemType = Item.ItemType.LogWorld, amount = 3 });
                             collision.collider.gameObject.GetComponent<TreeScript>().treeTileHP = 10;
                         }
-                    }     
+                    }
+                }
+            }
+            if (collision.collider.gameObject.tag == "Rabbit" && collision.collider.isTrigger)
+            {
+                Debug.Log("Hit rabbit");
+                foreach (Transform child in this.transform)
+                {
+                    if (child.CompareTag("WoodenAxe"))
+                    {
+                        collision.collider.gameObject.GetComponent<rabbitScript>().HitRabbit(1);
+                    }
+
+                    if (collision.collider.gameObject.GetComponent<rabbitScript>().rabbitHP <= 0)
+                    {
+                        inventory.AddItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 });
+                        Destroy(collision.collider.gameObject);
+                    }
                 }
             }
             canHarvest = false;

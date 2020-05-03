@@ -118,6 +118,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CampFireCraftingStation
       objectReference: {fileID: 0}
+    - target: {fileID: 2178137056124476893, guid: 12b1948be14f41241a0a75c059c326fa,
+        type: 3}
+      propertyPath: m_TagString
+      value: CampFire
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3803313271610669726, guid: 12b1948be14f41241a0a75c059c326fa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 12b1948be14f41241a0a75c059c326fa, type: 3}

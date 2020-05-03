@@ -15,6 +15,8 @@ public class rabbitScript : MonoBehaviour
     private Vector2 movementDirection;
     public Vector2 movementPerSecond;
     private Rigidbody2D rb;
+
+    public int rabbitHP = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,6 @@ public class rabbitScript : MonoBehaviour
         if (playerObject != null)
         {
             float dist = Vector2.Distance(playerObject.transform.position, this.transform.position);
-            Debug.Log(dist);
 
             if (dist > 20)
             {
@@ -59,13 +60,9 @@ public class rabbitScript : MonoBehaviour
         creatureSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<CreatureSpawner>();
     }
 
-    public void HitRabbit ()
+    public void HitRabbit (int damageAmount)
     {
-
-    }
-    public void KillRabbit()
-    {
-
+        rabbitHP = rabbitHP - damageAmount;
     }
 
     public void NormalMovement()

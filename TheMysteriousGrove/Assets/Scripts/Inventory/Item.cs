@@ -14,7 +14,9 @@ public class Item
         Stone,
         WoodenAxe,
         WoodenAxeWorld,
-        CampFire
+        CampFire,
+        UncookedRabbit,
+        CookedRabbit
     }
 
     public ItemType itemType;
@@ -34,6 +36,8 @@ public class Item
             case ItemType.StickWorld: return ItemAssets.Instance.StickSpriteOutline;
             case ItemType.LogWorld: return ItemAssets.Instance.LogSpriteOutline;
             case ItemType.CampFire: return ItemAssets.Instance.CampFireSprite;
+            case ItemType.UncookedRabbit: return ItemAssets.Instance.UncookedRabbitSprite;
+            case ItemType.CookedRabbit: return ItemAssets.Instance.CookedRabbitSprite;
         }
     }
 
@@ -45,6 +49,8 @@ public class Item
             default:
             case ItemType.LogWorld:
             case ItemType.StickWorld:
+            case ItemType.UncookedRabbit:
+            case ItemType.CookedRabbit:
                 return true;
             case ItemType.WoodenAxeWorld:
             case ItemType.CampFire:

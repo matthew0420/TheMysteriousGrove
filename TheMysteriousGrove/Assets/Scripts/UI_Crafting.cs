@@ -12,6 +12,11 @@ public class UI_Crafting : MonoBehaviour
     public GameObject woodenAxeRecipe;
     public GameObject campFireRecipe;
 
+    public GameObject cookedRabbitRecipeIcon;
+    public GameObject cookedRabbitRecipe;
+
+    public bool campFireActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,10 @@ public class UI_Crafting : MonoBehaviour
         //this is called in the UI button before the recipe is selected
         woodenAxeRecipe.SetActive(false);
         campFireRecipe.SetActive(false);
+        if (campFireActive == true)
+        {
+            cookedRabbitRecipe.SetActive(false);
+        }
     }
 
     public void SelectCraftWoodenAxe ()
@@ -41,6 +50,11 @@ public class UI_Crafting : MonoBehaviour
     public void SelectCampFire()
     {
         campFireRecipe.SetActive(true);
+    }
+
+    public void SelectCookRabbit()
+    {
+        cookedRabbitRecipe.SetActive(true);
     }
 
     public void CraftWoodenAxe ()
@@ -68,6 +82,19 @@ public class UI_Crafting : MonoBehaviour
         }
     }
 
+    public void CookRabbit()
+    {
+        if (playerScript.inventory.CheckItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 }) == true)
+        {
+            playerScript.inventory.AddItem(new Item { itemType = Item.ItemType.CookedRabbit, amount = 1 });
+            playerScript.inventory.RemoveItem(new Item { itemType = Item.ItemType.UncookedRabbit, amount = 1 });
+        }
+        else
+        {
+            Debug.Log("No uncooked rabbit in inventory!");
+        }
+    }
+
     public void Craft ()
     {
         if (woodenAxeRecipe.activeInHierarchy)
@@ -77,6 +104,10 @@ public class UI_Crafting : MonoBehaviour
         if (campFireRecipe.activeInHierarchy)
         {
             CraftCampFire();
+        }
+        if (cookedRabbitRecipe.activeInHierarchy)
+        {
+            CookRabbit();
         }
     }
 }

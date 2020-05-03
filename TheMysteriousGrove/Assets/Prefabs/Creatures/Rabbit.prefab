@@ -131,9 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
   creatureSpawner: {fileID: 0}
-  rabbitObject: {fileID: 0}
+  rabbitObject: {fileID: 7585140536527539104}
   directionChangeTime: 3
   movementPerSecond: {x: 0, y: 0}
+  rabbitHP: 3
 --- !u!50 &-7262328069894915495
 Rigidbody2D:
   serializedVersion: 4

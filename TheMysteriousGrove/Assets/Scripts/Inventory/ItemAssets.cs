@@ -23,4 +23,6 @@ public class ItemAssets : MonoBehaviour
     public Sprite StickSpriteOutline;
     public Sprite LogSpriteOutline;
     public Sprite CampFireSprite;
+    public Sprite UncookedRabbitSprite;
+    public Sprite CookedRabbitSprite;
 }
